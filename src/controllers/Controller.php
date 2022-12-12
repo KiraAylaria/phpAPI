@@ -7,6 +7,7 @@
 
         public function __construct(Gateway $gateway)
         {
+            // Set the gateway
             $this->gateway = $gateway;
         }
 
@@ -16,6 +17,7 @@
 
         abstract protected function processCollectionRequest(string $method) : void;
 
+        // Validate request
         abstract protected function getValidationErrors(array $data, bool $is_new = true) : array;
 
     }

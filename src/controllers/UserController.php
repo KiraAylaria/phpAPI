@@ -19,18 +19,20 @@
 
         protected function processResourceRequest(string $method, string $id) : void
         {
-            $product = $this->gateway->get($id);
+            $user = $this->gateway->get($id);
 
-            if (!$product) {
+            // Check if user exists
+            if (!$user) {
                 // Not Found
                 http_response_code(404);
-                echo json_encode(['message' => 'Product not found']);
+                echo json_encode(['message' => 'User not found']);
                 return;
             }
 
+            // Allowed methods for the ressource
             switch ($method) {
                 case 'GET':
-                    echo json_encode($product);
+                    echo json_encode($user);
                     break;
 
                 case 'PATCH':
@@ -44,10 +46,10 @@
                         break;
                     }
 
-                    $rows = $this->gateway->update($product, $data);
+                    $rows = $this->gateway->update($user, $data);
 
                     echo json_encode([
-                        'message' => "Product $id updated",
+                        'message' => "User $id updated",
                         'id' => $id
                     ]);
                     break;
@@ -55,7 +57,7 @@
                 case 'DELETE':
                     $rows = $this->gateway->delete($id);
                     echo json_encode([
-                        'message' => "Product $id deleted",
+                        'message' => "User $id deleted",
                         'rows' => $rows
                     ]);
                     break;
@@ -70,6 +72,7 @@
 
         protected function processCollectionRequest(string $method) : void 
         {
+            // Allowed methods for the collection
             switch ($method) {
                 case 'GET':
                     echo json_encode($this->gateway->getAll());
@@ -92,7 +95,7 @@
                     http_response_code(201);
 
                     echo json_encode([
-                        'message' => 'Product created',
+                        'message' => 'User created',
                         'id' => $id
                     ]);
                     break;

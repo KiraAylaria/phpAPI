@@ -10,6 +10,7 @@
 
         public function processRequest(string $method, ?string $id) : void
         {
+            // Decide if ressource or collection request (no id provided)
             if ($id) {
                 $this->processResourceRequest($method, $id);
             } else {
@@ -21,6 +22,7 @@
         {
             $product = $this->gateway->get($id);
 
+            // Check if product exists
             if (!$product) {
                 // Not Found
                 http_response_code(404);
@@ -28,6 +30,7 @@
                 return;
             }
 
+            // Allowed methods for the ressource
             switch ($method) {
                 case 'GET':
                     echo json_encode($product);
@@ -70,6 +73,7 @@
 
         protected function processCollectionRequest(string $method) : void 
         {
+            // Allowed methods for the collection
             switch ($method) {
                 case 'GET':
                     echo json_encode($this->gateway->getAll());

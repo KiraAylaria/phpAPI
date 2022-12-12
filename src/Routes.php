@@ -12,11 +12,12 @@
         public function __construct()
         {
 
+            // Get the requested ressources from the url
             $urlParts = explode('/', $_SERVER['REQUEST_URI']);
             $this->requestRoute = $urlParts[1];
             $this->requestId = $parts[2] ?? null;
 
-            // Available routes
+            // Create gateway and controllers for available routes
             switch ($this->requestRoute) {
                 case 'products':
                     $this->gateway = new ProductGateway();
@@ -29,7 +30,7 @@
                     break;
 
                 default:
-                    // Not Found
+                    // Route not found
                     http_response_code(404);
                     exit;
             }
@@ -38,6 +39,7 @@
 
         public function processRequest()
         {
+            // Process the request
             $this->controller->processRequest($_SERVER['REQUEST_METHOD'], $this->requestId);
         }
 

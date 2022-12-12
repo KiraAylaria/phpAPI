@@ -8,6 +8,7 @@
             parent::__construct();
         }
 
+        // Get all products
         public function getAll() : array
         {
             $sql = "SELECT * FROM products";
@@ -20,6 +21,7 @@
             return $data;
         }
 
+        // Create a product
         public function create(array $data) : string
         {
             $sql = "INSERT INTO products (name, size, is_available) VALUES (:name, :size, :is_available)";
@@ -34,6 +36,7 @@
             return $this->conn->lastInsertId();
         }
 
+        // Get a specific product
         public function get(string $id) : array | bool
         {
             $sql = "SELECT * FROM products WHERE id = :id";
@@ -50,6 +53,7 @@
             return $data;
         }
 
+        // Update a product
         public function update(array $current, array $new) : int
         {
             $sql = "UPDATE products SET name = :name, size = :size, is_available = :is_available WHERE id = :id";
@@ -64,6 +68,7 @@
             return $stmt->rowCount();
         }
 
+        // Delete a product
         public function delete(string $id) : int
         {
             $sql = "DELETE FROM products WHERE id = :id";

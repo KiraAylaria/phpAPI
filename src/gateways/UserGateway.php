@@ -8,6 +8,7 @@
             parent::__construct();
         }
 
+        // Get all users
         public function getAll() : array
         {
             $sql = "SELECT * FROM users";
@@ -19,6 +20,7 @@
             return $data;
         }
 
+        // Create a user
         public function create(array $data) : string
         {
             $sql = "INSERT INTO users (username, mail, password) VALUES (:username, :mail, :password)";
@@ -33,6 +35,7 @@
             return $this->conn->lastInsertId();
         }
 
+        // Get a specific user
         public function get(string $id) : array | bool
         {
             $sql = "SELECT * FROM users WHERE id = :id";
@@ -45,6 +48,7 @@
             return $data;
         }
 
+        // Update a user
         public function update(array $current, array $new) : int
         {
             $sql = "UPDATE users SET username = :username, mail = :mail, password = :password WHERE id = :id";
@@ -59,6 +63,7 @@
             return $stmt->rowCount();
         }
 
+        // Delete a user
         public function delete(string $id) : int
         {
             $sql = "DELETE FROM users WHERE id = :id";

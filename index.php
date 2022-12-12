@@ -5,6 +5,7 @@
     // Authorization
     if (isset($_SERVER['HTTP_X_API_KEY']) && $_SERVER['HTTP_X_API_KEY'] == API_KEY) {
 
+        // process the request
         $routes = new Routes();
         $routes->processRequest();
 

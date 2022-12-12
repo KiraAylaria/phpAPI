@@ -4,8 +4,10 @@
     {
         public static function handleException(Throwable $exception) : void
         {
+            // Internal Server Error
             http_response_code(500);
 
+            // Response in JSON format
             echo json_encode([
                 'code' => $exception->getCode(),
                 'message' => $exception->getMessage(),
