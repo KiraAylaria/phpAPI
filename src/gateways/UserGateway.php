@@ -1,22 +1,19 @@
 <?php
 
-    class ProductGateway
+    class UserGateway extends Gateway
     {
 
-        private PDO $conn;
-
-        public function __construct(Database $database)
+        public function __construct()
         {
-            $this->conn = $database->getConnection();
+            parent::__construct();
         }
 
         public function getAll() : array
         {
-            $sql = "SELECT * FROM products";
+            $sql = "SELECT * FROM users";
             $stmt = $this->conn->query($sql);
             $data = [];
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $row['is_available'] = (bool) $row['is_available'];
                 $data[] = $row;
             }
             return $data;
@@ -24,12 +21,12 @@
 
         public function create(array $data) : string
         {
-            $sql = "INSERT INTO products (name, size, is_available) VALUES (:name, :size, :is_available)";
+            $sql = "INSERT INTO users (username, mail, password) VALUES (:username, :mail, :password)";
             $stmt = $this->conn->prepare($sql);
 
-            $stmt->bindValue(':name', $data['name'], PDO::PARAM_STR);
-            $stmt->bindValue(':size', $data['size'], PDO::PARAM_INT);
-            $stmt->bindValue(':is_available', (bool) $data['is_available'] ?? false, PDO::PARAM_BOOL);
+            $stmt->bindValue(':username', $data['username'], PDO::PARAM_STR);
+            $stmt->bindValue(':mail', $data['mail'], PDO::PARAM_STR);
+            $stmt->bindValue(':password', $data['password'], PDO::PARAM_STR);
             
             $stmt->execute();
 
@@ -38,28 +35,24 @@
 
         public function get(string $id) : array | bool
         {
-            $sql = "SELECT * FROM products WHERE id = :id";
+            $sql = "SELECT * FROM users WHERE id = :id";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindValue(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
             
             $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($data !== false) {
-                $data['is_available'] = (bool) $data['is_available'];
-            }
-
             return $data;
         }
 
         public function update(array $current, array $new) : int
         {
-            $sql = "UPDATE products SET name = :name, size = :size, is_available = :is_available WHERE id = :id";
+            $sql = "UPDATE users SET username = :username, mail = :mail, password = :password WHERE id = :id";
             $stmt = $this->conn->prepare($sql);
 
-            $stmt->bindValue(':name', $new['name'] ?? $current['name'], PDO::PARAM_STR);
-            $stmt->bindValue(':size', $new['size'] ?? $current['size'], PDO::PARAM_INT);
-            $stmt->bindValue(':is_available', $new['is_available'] ?? $current['is_available'], PDO::PARAM_BOOL);
+            $stmt->bindValue(':username', $new['username'] ?? $current['username'], PDO::PARAM_STR);
+            $stmt->bindValue(':mail', $new['mail'] ?? $current['mail'], PDO::PARAM_STR);
+            $stmt->bindValue(':password', $new['password'] ?? $current['password'], PDO::PARAM_STR);
             $stmt->bindValue(':id', $current['id'], PDO::PARAM_INT);
             $stmt->execute();
 
@@ -68,7 +61,7 @@
 
         public function delete(string $id) : int
         {
-            $sql = "DELETE FROM products WHERE id = :id";
+            $sql = "DELETE FROM users WHERE id = :id";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindValue(':id', $id, PDO::PARAM_INT);
             $stmt->execute();

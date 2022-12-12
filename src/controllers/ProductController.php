@@ -1,13 +1,11 @@
 <?php
 
-    class ProductController
+    class ProductController extends Controller
     {
-
-        private $gateway;
 
         public function __construct(ProductGateway $gateway)
         {
-            $this->gateway = $gateway;
+            parent::__construct($gateway);
         }
 
         public function processRequest(string $method, ?string $id) : void
@@ -19,7 +17,7 @@
             }
         }
 
-        private function processResourceRequest(string $method, string $id) : void
+        protected function processResourceRequest(string $method, string $id) : void
         {
             $product = $this->gateway->get($id);
 
@@ -70,7 +68,7 @@
             }
         }
 
-        private function processCollectionRequest(string $method) : void 
+        protected function processCollectionRequest(string $method) : void 
         {
             switch ($method) {
                 case 'GET':
@@ -107,12 +105,15 @@
             }
         }
 
-        private function getValidationErrors(array $data, bool $is_new = true) : array
+        protected function getValidationErrors(array $data, bool $is_new = true) : array
         {
             $errors = [];
 
             if ($is_new && empty($data['name'])) {
                 $errors[] = "name is required";
+            }
+            if ($is_new && empty($data['size'])) {
+                $errors[] = "size is required";
             }
             if (array_key_exists('size', $data)) {
                 if (filter_var($data['size'], FILTER_VALIDATE_INT) === false) {
