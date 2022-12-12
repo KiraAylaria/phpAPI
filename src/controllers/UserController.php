@@ -46,6 +46,10 @@
                         break;
                     }
 
+                    $password = $data['password'];
+                    $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
+                    $data['password'] = $hashedPwd;
+
                     $rows = $this->gateway->update($user, $data);
 
                     echo json_encode([
@@ -79,6 +83,7 @@
                     break;
                 
                 case 'POST':
+                    // Get content from request body
                     $data = (array) json_decode(file_get_contents("php://input"), true);
                     $errors = $this->getValidationErrors($data);
 
@@ -88,6 +93,10 @@
                         echo json_encode(['errors' => $errors]);
                         break;
                     }
+
+                    $password = $data['password'];
+                    $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
+                    $data['password'] = $hashedPwd;
 
                     $id = $this->gateway->create($data);
 
@@ -112,13 +121,14 @@
         {
             $errors = [];
 
-            if ($is_new && empty($data['name'])) {
-                $errors[] = "name is required";
+            if ($is_new && empty($data['username'])) {
+                $errors[] = "username is required";
             }
-            if (array_key_exists('size', $data)) {
-                if (filter_var($data['size'], FILTER_VALIDATE_INT) === false) {
-                    $errors[] = "size must be an integer";
-                }
+            if ($is_new && empty($data['password'])) {
+                $errors[] = "password is required";
+            }
+            if ($is_new && empty($data['mail'])) {
+                $errors[] = "password is required";
             }
 
             return $errors;
