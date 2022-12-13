@@ -34,10 +34,10 @@ Make sure to put your API-Key in the request headers:
 * `/users`
   * GET, POST, PATCH, DELETE
 
-Request URL (localhost) for collection of products:  
+Example request URL (localhost) for collection of products:  
 `http://127.0.0.1/products`
 
-Request URL (localhost) for a specific product:  
+Example request URL (localhost) for a specific product:  
 `http://127.0.0.1/products/1`  
 
 For POST or PATCH requests make sure to send the data in the request body in JSON format like this:
