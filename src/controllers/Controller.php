@@ -20,4 +20,31 @@
         // Validate request
         abstract protected function getValidationErrors(array $data, bool $is_new = true) : array;
 
+        public function routeOptions(?string $id)
+        {
+            if ($id) {
+                $this->resourceOptions();
+            } else {
+                $this->collectionOptions();
+            }
+        }
+
+        protected function resourceOptions()
+        {
+            // No Content
+            http_response_code(204);
+            header('Allow: OPTIONS, GET, PATCH');
+            header('Accept: application/json');
+            exit;
+        }
+
+        protected function collectionOptions()
+        {
+            // No Content
+            http_response_code(204);
+            header('Allow: OPTIONS, GET, POST');
+            header('Accept: application/json');
+            exit;
+        }
+
     }

@@ -9,6 +9,9 @@
     set_exception_handler('ErrorHandler::handleException');
 
     // Content type of response
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, X-API-KEY');
+    header("Access-Control-Allow-Credentials: true");
     header("Content-type: application/json; charset=UTF-8");
 
     // Database credentials

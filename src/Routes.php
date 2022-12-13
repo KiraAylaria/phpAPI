@@ -43,4 +43,9 @@
             $this->controller->processRequest($_SERVER['REQUEST_METHOD'], $this->requestId);
         }
 
+        public function options() 
+        {
+            $this->controller->routeOptions($this->requestId);
+        }
+
     }
