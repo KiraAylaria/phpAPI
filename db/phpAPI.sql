@@ -21,6 +21,9 @@ SET time_zone = "+00:00";
 -- Datenbank: `phpAPI`
 --
 
+CREATE DATABASE IF NOT EXISTS `phpAPI`;
+USE `phpAPI`;
+
 -- --------------------------------------------------------
 
 --
