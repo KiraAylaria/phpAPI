@@ -130,7 +130,7 @@
                 $errors[] = "password is required";
             }
             if ($is_new && empty($data['mail'])) {
-                $errors[] = "password is required";
+                $errors[] = "mail is required";
             }
 
             return $errors;
