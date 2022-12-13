@@ -15,7 +15,7 @@
             // Get the requested ressources from the url
             $urlParts = explode('/', $_SERVER['REQUEST_URI']);
             $this->requestRoute = $urlParts[1];
-            $this->requestId = $parts[2] ?? null;
+            $this->requestId = $urlParts[2] ?? null;
 
             // Create gateway and controllers for available routes
             switch ($this->requestRoute) {

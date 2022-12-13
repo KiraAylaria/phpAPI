@@ -46,15 +46,17 @@
                         break;
                     }
 
-                    $password = $data['password'];
-                    $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
-                    $data['password'] = $hashedPwd;
+                    if (isset($data['password'])) {
+                        $password = $data['password'];
+                        $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
+                        $data['password'] = $hashedPwd;
+                    }
 
                     $rows = $this->gateway->update($user, $data);
 
                     echo json_encode([
                         'message' => "User $id updated",
-                        'id' => $id
+                        'rows' => $rows
                     ]);
                     break;
 
